@@ -68,7 +68,6 @@ class Matcher_AllInMemory : public Matcher
     bool bOk = true;
     for (size_t j = 0; j < vec_keypointSets.size(); ++j)  {
       // Load descriptor of Jnth image
-      std::cout << "hi" << std::endl;
       bOk &= loadFeatsFromMemory(vec_keypointSets[j].features(), map_Feat[j]);
       bOk &= loadDescsFromMemory(vec_keypointSets[j].descriptors(), map_Desc[j]);
     }
