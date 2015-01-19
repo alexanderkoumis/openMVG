@@ -61,6 +61,22 @@ class Matcher_AllInMemory : public Matcher
     return bOk;
   }
 
+
+  /// Load all features and descriptors in memory, from memory
+  bool loadData(
+    const std::vector<KeypointSetT> & vec_keypointSets) // where the data are saved
+  {
+    bool bOk = true;
+    for (size_t j = 0; j < vec_keypointSets.size(); ++j)  {
+      // Load descriptor of Jnth image
+std::cout << "hi" << std::endl;
+      // bOk &= loadFeatsFromMemory(vec_keypointSets[j].features(), map_Feat[j]);
+      // bOk &= loadDescsFromMemory(vec_keypointSets[j].descriptors(), map_Desc[j]);
+    }
+    return bOk;
+  }
+
+
   void Match(
     const std::vector<std::string> & vec_fileNames, // input filenames,
     PairWiseMatches & map_PutativesMatches)const // the pairwise photometric corresponding points
