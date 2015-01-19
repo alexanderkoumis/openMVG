@@ -20,6 +20,10 @@ ADD_LIBRARY(openMVG_multiview
 	${multiview_files_header}
 	${multiview_files_cpp})
 
+IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+  SET_TARGET_PROPERTIES(openMVG_multiview PROPERTIES COMPILE_FLAGS "-fPIC")
+ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+
 #Make multiview library integrate numeric library
 ADD_LIBRARY(openMVG_multiview_test_data ${MULTIVIEWTESTDATA})
 TARGET_LINK_LIBRARIES(openMVG_multiview openMVG_numeric)

@@ -40,6 +40,22 @@ class ImageCollectionGeometricFilter
     return bOk;
   }
 
+  typedef openMVG::Descriptor<float, 128> DescriptorT;
+  typedef std::vector<FeatureT> FeaturesT;
+  typedef std::vector<DescriptorT> DescriptorsT;
+  typedef openMVG::KeypointSet<FeaturesT, DescriptorsT > KeypointSetT;
+  /// Load all features in memory, from memory
+  bool loadData(
+    const std::vector<KeypointSetT> & vec_keypointSets) // Original feature vector
+  {
+    bool bOk = true;
+    for (size_t j = 0; j < vec_keypointSets.size(); ++j)  {
+      // Load features of Jnth image
+      bOk &= loadFeatsFromMemory(vec_keypointSets[j].features(), map_Feat[j]);
+    }
+    return bOk;
+  }
+
   /// Filter all putative correspondences according the templated geometric filter
   template <typename GeometricFilterT>
   void Filter(
