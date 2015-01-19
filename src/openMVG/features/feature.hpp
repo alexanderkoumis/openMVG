@@ -144,6 +144,22 @@ static bool saveFeatsToFile(
   return bOk;
 }
 
+/// Read feats from memory
+template<typename FeaturesT >
+static bool loadFeatsFromMemory(
+  const FeaturesT & vec_feats_in,
+  FeaturesT & vec_feats_out)
+{
+  vec_feats_out.clear();
+  for( typename FeaturesT::const_iterator iter = vec_feats_in.begin();
+    iter != vec_feats_in.end(); ++iter)
+  {
+    vec_feats_out.push_back(*iter);
+  }
+  bool bOk = !vec_feats_out.empty();
+  return bOk;
+}
+
 /// Export point feature based vector to a matrix [(x,y)'T, (x,y)'T]
 template< typename FeaturesT, typename MatT >
 void PointsToMat(

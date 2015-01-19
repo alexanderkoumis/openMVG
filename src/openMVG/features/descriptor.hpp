@@ -194,6 +194,21 @@ static bool saveDescsToBinFile(
   return bOk;
 }
 
+/// Read feats from memory
+template<typename DescriptorsT >
+static bool loadDescsFromMemory(
+  const DescriptorsT & vec_descs_in,
+  DescriptorsT & vec_descs_out)
+{
+  vec_descs_out.clear();
+  for( typename DescriptorsT::const_iterator iter = vec_descs_in.begin();
+    iter != vec_descs_in.end(); ++iter)
+  {
+    vec_descs_out.push_back(*iter);
+  }
+  bool bOk = !vec_descs_out.empty();
+  return bOk;
+}
 
 }  // namespace openMVG
 
