@@ -61,6 +61,18 @@ IncrementalReconstructionEngine::IncrementalReconstructionEngine(const std::stri
   }
 }
 
+IncrementalReconstructionEngine::IncrementalReconstructionEngine(
+  const std::vector<openMVG::SfMIO::CameraInfo> vec_camImageNames,
+  const std::vector<openMVG::SfMIO::IntrinsicCameraInfo> vec_intrinsicGroups,
+  const std::set<size_t> _set_remainingImageId,
+  const std::map<size_t, size_t> map_IntrinsicIdPerImageId,
+  const openMVG::tracks::STLMAPTracks map_tracks)
+  : ReconstructionEngine(std::string(""), std::string(""), std::string("")),
+  _vec_camImageNames(vec_camImageNames),
+  _set_remainingImageId(_set_remainingImageId),
+  _map_IntrinsicIdPerImageId (map_IntrinsicIdPerImageId),
+  _map_tracks(map_tracks) {}
+
 IncrementalReconstructionEngine::~IncrementalReconstructionEngine()
 {
   ofstream htmlFileStream( string(stlplus::folder_append_separator(_sOutDirectory) +

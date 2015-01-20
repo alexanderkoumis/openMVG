@@ -16,6 +16,9 @@ TARGET_LINK_LIBRARIES(openMVG_main_computeMatches
 # - the required input is matches computed by openMVG_main_computeMatches
 #
 ADD_LIBRARY(openMVG_SfM_Sequential SfMIncrementalEngine.cpp)
+IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+  SET_TARGET_PROPERTIES(openMVG_SfM_Sequential PROPERTIES COMPILE_FLAGS "-fPIC")
+ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
 ADD_EXECUTABLE(openMVG_main_IncrementalSfM main_IncrementalSfM.cpp)
 TARGET_LINK_LIBRARIES(openMVG_main_IncrementalSfM
                       openMVG_SfM_Sequential

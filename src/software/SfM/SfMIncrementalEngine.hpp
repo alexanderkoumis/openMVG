@@ -33,6 +33,13 @@ public:
     const std::string & sMatchesPath, const std::string & sOutDirectory,
     bool bHtmlReport = false);
 
+  /// This constructor loads required data structures from memory rather than files
+  IncrementalReconstructionEngine(const std::vector<openMVG::SfMIO::CameraInfo> vec_camImageNames,
+    const std::vector<openMVG::SfMIO::IntrinsicCameraInfo> vec_intrinsicGroups,
+    const std::set<size_t> _set_remainingImageId,
+    const std::map<size_t, size_t> map_IntrinsicIdPerImageId,
+    const openMVG::tracks::STLMAPTracks map_tracks);
+
   ~IncrementalReconstructionEngine();
 
   virtual bool Process();
@@ -43,15 +50,6 @@ private:
 
   /// Find the best initial pair
   bool InitialPairChoice( std::pair<size_t,size_t> & initialPairIndex);
-
-  /// Compute the initial 3D seed (First camera t=0; R=Id, second estimated by 5 point algorithm)
-  bool MakeInitialPair3D(const std::pair<size_t,size_t> & initialPair);
-
-  /// List the images that the greatest number of matches to the current 3D reconstruction.
-  bool FindImagesWithPossibleResection(std::vector<size_t> & vec_possible_indexes);
-
-  /// Add to the current scene the desired image indexes.
-  bool Resection(std::vector<size_t> & vec_possible_indexes);
 
   /// Add a single Image to the scene and triangulate new possible tracks
   bool Resection(size_t imageIndex);
@@ -73,6 +71,15 @@ public:
 
   // Return MSE (Mean Square Error) and an histogram of residual values.
   double ComputeResidualsHistogram(Histogram<double> * histo);
+
+  /// Compute the initial 3D seed (First camera t=0; R=Id, second estimated by 5 point algorithm)
+  bool MakeInitialPair3D(const std::pair<size_t,size_t> & initialPair);
+
+  /// List the images that the greatest number of matches to the current 3D reconstruction.
+  bool FindImagesWithPossibleResection(std::vector<size_t> & vec_possible_indexes);
+
+  /// Add to the current scene the desired image indexes.
+  bool Resection(std::vector<size_t> & vec_possible_indexes);
 
   const std::vector<std::string> getFilenamesVector() const
   {
