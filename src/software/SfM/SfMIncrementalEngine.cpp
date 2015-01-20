@@ -76,7 +76,8 @@ IncrementalReconstructionEngine::IncrementalReconstructionEngine(
   _vec_intrinsicGroups(vec_intrinsicGroups),
   _set_remainingImageId(_set_remainingImageId),
   _map_IntrinsicIdPerImageId (map_IntrinsicIdPerImageId),
-  _map_tracks(map_tracks) {}
+  _map_tracks(map_tracks),
+  _bHtmlReport(false) /* Not supported */ {}
 
 IncrementalReconstructionEngine::~IncrementalReconstructionEngine()
 {
