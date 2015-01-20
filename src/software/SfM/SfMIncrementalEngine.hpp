@@ -34,7 +34,10 @@ public:
     bool bHtmlReport = false);
 
   /// This constructor loads required data structures from memory rather than files
-  IncrementalReconstructionEngine(const std::vector<openMVG::SfMIO::CameraInfo> vec_camImageNames,
+  IncrementalReconstructionEngine(
+    const std::map< size_t, std::vector<SIOPointFeature> > map_feats,
+    const openMVG::matching::PairWiseMatches map_Matches_F,
+    const std::vector<openMVG::SfMIO::CameraInfo> vec_camImageNames,
     const std::vector<openMVG::SfMIO::IntrinsicCameraInfo> vec_intrinsicGroups,
     const std::set<size_t> _set_remainingImageId,
     const std::map<size_t, size_t> map_IntrinsicIdPerImageId,
