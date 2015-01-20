@@ -29,7 +29,6 @@ using namespace openMVG::tracks;
 #include <functional>
 #include <sstream>
 
-#define FUCK(); printf("%d\n", __LINE__);
 namespace openMVG{
 
 typedef SIOPointFeature FeatureT;

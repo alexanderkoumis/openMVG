@@ -57,8 +57,6 @@ private:
   /// Add a single Image to the scene and triangulate new possible tracks
   bool Resection(size_t imageIndex);
 
-  /// Discard track with too large residual error
-  size_t badTrackRejector(double dPrecision);
 
 public:
   /// Give a color to all the 3D points
@@ -84,6 +82,9 @@ public:
   /// Add to the current scene the desired image indexes.
   bool Resection(std::vector<size_t> & vec_possible_indexes);
 
+  /// Discard track with too large residual error
+  size_t badTrackRejector(double dPrecision);
+  
   const std::vector<std::string> getFilenamesVector() const
   {
     std::vector<std::string> vec_fileNames;
