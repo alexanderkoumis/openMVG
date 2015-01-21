@@ -19,6 +19,10 @@ list(REMOVE_ITEM image_files_cpp ${REMOVEFILESUNITTEST})
 ADD_LIBRARY(openMVG_image ${image_files_header} ${image_files_cpp})
 TARGET_LINK_LIBRARIES(openMVG_image ${PNG_LIBRARIES} ${JPEG_LIBRARY})
 
+IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+  SET_TARGET_PROPERTIES(openMVG_image PROPERTIES COMPILE_FLAGS "-fPIC")
+ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+
 UNIT_TEST(openMVG image "openMVG_numeric;openMVG_image")
 UNIT_TEST(openMVG image_drawing "openMVG_numeric;openMVG_image")
 UNIT_TEST(openMVG image_io "openMVG_numeric;openMVG_image")

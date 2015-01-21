@@ -188,12 +188,14 @@ struct reconstructorHelper
       //Export Camera as binary files
       std::map<size_t, size_t> map_cameratoIndex;
       size_t count = 0;
+
       for (Map_BrownPinholeCamera::const_iterator iter =
         map_Camera.begin();
         iter != map_Camera.end();
         ++iter)
       {
         map_cameratoIndex[iter->first] = count;
+        
         const Mat34 & PMat = iter->second._P;
         std::ofstream file(
           stlplus::create_filespec(stlplus::folder_append_separator(sOutDirectory) + "cameras",
@@ -205,6 +207,7 @@ struct reconstructorHelper
         file.close();
         ++count;
       }
+
 
       //-- Export the camera with disto
       for (Map_BrownPinholeCamera::const_iterator iter =
@@ -226,6 +229,7 @@ struct reconstructorHelper
           << cam._k3 << "\n";
         // Save extrinsic data
         const Mat3 & R = cam._R;
+
         file << R(0,0) << " " << R(0,1) << " " << R(0,2) << "\n"
           << R(1,0) << " " << R(1,1) << " " << R(1,2) << "\n"
           << R(2,0) << " " << R(2,1) << " " << R(2,2) << "\n";
@@ -234,7 +238,9 @@ struct reconstructorHelper
         file.close();
       }
 
+
       //Export 3D point and tracks
+
 
       size_t nc = map_Camera.size();
       size_t nt = set_trackId.size();
@@ -248,6 +254,7 @@ struct reconstructorHelper
       std::ofstream f_visibility(
         stlplus::create_filespec(stlplus::folder_append_separator(sOutDirectory) + "clouds",
         "visibility", "txt").c_str());
+
 
       if (!f_cloud.is_open()) {
         std::cerr << "cannot save cloud" << std::endl;
@@ -272,6 +279,7 @@ struct reconstructorHelper
       {
         const size_t trackId = *iter;
 
+
         // Look through the track and add point position
         const tracks::submapTrack & track = (map_reconstructed.find(trackId))->second;
 
@@ -294,6 +302,7 @@ struct reconstructorHelper
         {
           const size_t imageId = iterTrack->first;
 
+
           if ( map_cameratoIndex.find(imageId) != map_cameratoIndex.end())
           {
             set_imageIndex.insert(map_cameratoIndex[imageId]);
@@ -305,6 +314,7 @@ struct reconstructorHelper
 
           s_visibility << iterTrack->first << " " << iterTrack->second << " ";
         }
+
 
         //export images indexes
         f_cloud << " " << set_imageIndex.size() << " ";
@@ -454,26 +464,42 @@ struct reconstructorHelper
         const std::string & sImageName = vec_fileNames[imageIndex];
         std::ostringstream os;
         os << std::setw(8) << std::setfill('0') << count;
+
         ReadImage( stlplus::create_filespec( sImagePath, sImageName).c_str(), &image );
         std::string sCompleteImageName = stlplus::create_filespec(
           stlplus::folder_append_separator(sOutDirectory) + "visualize", os.str(),"jpg");
+
         WriteImage( sCompleteImageName.c_str(), image);
       }
 
       //pmvs_options.txt
       std::ostringstream os;
-      os << "level 1" << "\n"
-       << "csize 2" << "\n"
-       << "threshold 0.7" << "\n"
-       << "wsize 7" << "\n"
-       << "minImageNum 3" << "\n"
-       << "CPU 8" << "\n"
-       << "setEdge 0" << "\n"
-       << "useBound 0" << "\n"
-       << "useVisData 0" << "\n"
-       << "sequence -1" << "\n"
-       << "timages -1 0 " << map_Camera.size() << "\n"
-       << "oimages 0" << "\n"; // ?
+      os << "level 1" << os.widen('\n')
+       << "csize 2" << os.widen('\n')
+       << "threshold 0.7" << os.widen('\n')
+       << "wsize 7" << os.widen('\n')
+       << "minImageNum 3" << os.widen('\n')
+       << "CPU 8" << os.widen('\n')
+       << "setEdge 0" << os.widen('\n')
+       << "useBound 0" << os.widen('\n')
+       << "useVisData 0" << os.widen('\n')
+       << "sequence -1" << os.widen('\n')
+       << "maxAngle 10" << os.widen('\n')
+       << "quad 2.0" << os.widen('\n')
+       << "timages -1 0 " << map_Camera.size() << os.widen('\n')
+       << "oimages 0" << os.widen('\n'); // ?
+      // os << "level 1" << "\n"
+      //  << "csize 2" << "\n"
+      //  << "threshold 0.7" << "\n"
+      //  << "wsize 7" << "\n"
+      //  << "minImageNum 3" << "\n"
+      //  << "CPU 8" << "\n"
+      //  << "setEdge 0" << "\n"
+      //  << "useBound 0" << "\n"
+      //  << "useVisData 0" << "\n"
+      //  << "sequence -1" << "\n"
+      //  << "timages -1 0 " << map_Camera.size() << "\n"
+      //  << "oimages 0" << "\n"; // ?
 
       std::ofstream file(stlplus::create_filespec(sOutDirectory, "pmvs_options", "txt").c_str());
       file << os.str();
